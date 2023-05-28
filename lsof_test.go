@@ -25,3 +25,9 @@ func TestReadProc(t *testing.T) {
 	require.NotEmpty(t, ps)
 	t.Log(ps)
 }
+
+func TestNotFound(t *testing.T) {
+	ps, err := ReadMap(1234)
+	require.NoError(t, err)
+	require.Nil(t, ps)
+}

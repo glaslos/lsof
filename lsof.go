@@ -2,7 +2,6 @@ package lsof
 
 import (
 	"bufio"
-	"errors"
 	"fmt"
 	"os"
 	"os/user"
@@ -141,5 +140,5 @@ func ReadMap(inode uint64) (*ProcStatus, error) {
 			}
 		}
 	}
-	return nil, errors.New("not found")
+	return nil, nil
 }
