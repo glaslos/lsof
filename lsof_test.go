@@ -2,6 +2,7 @@ package lsof
 
 import (
 	"os"
+	"runtime"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -16,13 +17,7 @@ func TestReadStatus(t *testing.T) {
 }
 
 func TestReadProc(t *testing.T) {
-	var stat *Stat
-	var err error
-	if os.Getenv("GOROOT") != "" {
-		stat, err = GetStat(os.Getenv("GOROOT") + "/bin/go")
-	} else {
-		stat, err = GetStat("/usr/local/go/bin/go")
-	}
+	stat, err := GetStat(runtime.GOROOT() + "/bin/go")
 	require.NoError(t, err)
 	require.NotEmpty(t, stat.Ino)
 	ps, err := ReadMap(stat.Ino)
