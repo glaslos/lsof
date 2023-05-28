@@ -4,7 +4,6 @@ import (
 	"os"
 	"testing"
 
-	"github.com/hairyhenderson/go-which"
 	"github.com/stretchr/testify/require"
 )
 
@@ -17,7 +16,13 @@ func TestReadStatus(t *testing.T) {
 }
 
 func TestReadProc(t *testing.T) {
-	stat, err := GetStat(which.Which("go"))
+	var stat *Stat
+	var err error
+	if os.Getenv("GOROOT") != "" {
+		stat, err = GetStat(os.Getenv("GOROOT") + "/bin/go")
+	} else {
+		stat, err = GetStat("/usr/local/go/bin/go")
+	}
 	require.NoError(t, err)
 	require.NotEmpty(t, stat.Ino)
 	ps, err := ReadMap(stat.Ino)
