@@ -9,11 +9,11 @@ import (
 )
 
 func TestReadStatus(t *testing.T) {
-	s, err := readStatus(os.Getpid())
+	s, err := readProcessStatus(os.Getpid())
 	require.NoError(t, err)
 	require.NotNil(t, s)
 	require.NotEmpty(t, s)
-	t.Log(s)
+	t.Log(s.String())
 }
 
 func TestReadProc(t *testing.T) {
@@ -31,4 +31,11 @@ func TestNotFound(t *testing.T) {
 	ps, err := ReadMap(1234)
 	require.NoError(t, err)
 	require.Nil(t, ps)
+}
+
+func TestReadPID(t *testing.T) {
+	t.Log(os.Getpid())
+	lines, err := ReadPID(os.Getpid())
+	require.NoError(t, err)
+	require.NotEmpty(t, lines)
 }
